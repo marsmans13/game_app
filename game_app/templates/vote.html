@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}{% endblock %}</title>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap' rel='stylesheet'>
+  <link rel="stylesheet" href="/static/style.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+{% block content %}
+<body style="background-color: transparent; min-height:100%; color:white;">
+    <div class="row">
+        <div class="col-lg-4 col-xs-0"></div>
+        <div class="col-lg-4 col-xs-12">
+            <h2 class="show-word">{{ word.word }}</h2>
+        </div>
+        <div class="col-lg-4 col-xs-0"></div>
+    </div>
+    <div class="row" style="margin-top: 50px;">
+        {% if not show_results %}
+            <div class="col-lg-3 col-sm-2 col-xs-0"></div>
+            <div class="col-lg-6 col-sm-8 col-xs-12">
+                <form action="{{ url_for('vote', word=word.word, game_code=game_code, word_num=word_num) }}" method="post">
+                    {% for definition in definitions %}
+                    <div class="row">
+                        <div class="col-lg-12 radio-defs">
+                            <input type="radio" id="definition_{{ definition.definition_id }}" name="definitions" value="{{ definition.definition }}">
+                            <label for="definition_{{ definition.definition_id }}">{{ definition.definition }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <input class="btn-style" id="definitionVote" type="submit" value="vote">
+                </form>
+            </div>
+            <div class="col-lg-3 col-sm-2 col-xs-0"></div>
+        {% elif show_results %}
+            <div class="col-lg-1 col-xs-0"></div>
+            <div class="col-lg-6 col-sm-12">
+                {% for definition in definitions %}
+                <div class="row">
+                    {% if definition == 'dictionary' %}
+                    <div class="col-lg-9 col-sm-10 dict-definition-box">
+                        <p>{{ definition }}</p>
+                        <p>{{ definitions[definition][0].definition }}</p>
+                    </div>
+                    {% else %}
+                    <div class="col-lg-9 col-sm-10 definition-box">
+                        <p>{{ definition }}</p>
+                        <p>{{ definitions[definition][0].definition }}</p>
+                    </div>
+                    {% endif %}
+                    <div class="col-lg-3 col-sm-2" style="margin-top:10px">
+                        {% if definitions[definition][1] in ("None", []) %}
+                            <p>No votes :(</p>
+                        {% else %}
+                            {% for voter in definitions[definition][1] %}
+                                <span>{{ voter }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            <form action="{{ url_for('vote', word=word.word, game_code=game_code, word_num=word_num) }}" method="post">
+                <label for="next_word"></label>
+                <input class="btn-style" type="submit" id="next_word" name="next_word" value="next word">
+            </form>
+            </div>
+            <div class="col-lg-1 col-xs-0"></div>
+            <div class="col-lg-3 col-xs-12">
+                {% for score in scores %}
+                    <p>{{ score }} {{ scores[score] }}</p>
+                {% endfor %}
+            </div>
+            <div class="col-lg-1 col-xs-0"></div>
+        {% endif %}
+    </div>
+
+</body>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}{% endblock %}</title>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap' rel='stylesheet'>
+  <link rel="stylesheet" href="/static/style.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+{% block content %}
+<body style="background-color: transparent; min-height:100%; color:white;">
+    <div class="container-fluid" style="margin-bottom: 50px; margin-top: 20px">
+      <h1 class="game-title">Balderdash</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-1 col-xs-0"></div>
+        <div class="col-lg-4 col-sm-6 col-xs-12">
+            <div class="row">
+                <div class="col-lg-6 col-xs-12" style="padding-top:12px;">
+                    <h3>your game code</h3>
+                </div>
+                <div class="col-lg-3 col-xs-12 code-display">
+                    <h1>{{ game_code }}</h1>
+                </div>
+                <div class="col-lg-3 col-xs-0"></div>
+                <div class="col-lg-9 col-xs-12" style="margin-top: 75px; margin-bottom: 50px;">
+                    <form action="{{ url_for('create_game', game_code=game_code) }}" method="post">
+                        <input class="btn-style" id="startGame" type="submit" value="start game">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-0"></div>
+        <div class="col-lg-3 col-xs-12 red-box">
+            <h2 style="margin-bottom:25px;">players</h2>
+            <div id="listPlayers">
+                <ul class="list-players">
+                    {% for player_in_game in players_in_game %}
+                    <li class="players"> {{ player_in_game.username }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-1 col-xs-0"></div>
+    </div>
+</body>
+<script type="text/javascript">
+    var code = '{{ game_code }}';
+    function updateListUsers() {
+        $.ajax("{{ url_for('create_game', game_code=game_code) }}").done(function (reply) {
+          console.log(reply);
+          var t = $($.parseHTML(reply)).find("#listPlayers").html();
+          console.log(t);
+          $('#listPlayers').html(t);
+       });
+    };
+    console.log('/create_game/' + code);
+
+    //compare and update every 5 seconds
+    setInterval(updateListUsers, 5000);
+</script>
+{% endblock %}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html class="js">
+<title>{% block title %}{% endblock %}</title>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap' rel='stylesheet'>
+  <link rel="stylesheet" href="/static/style.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-light bg-light" style="margin-bottom:0; background-color: #f0acb7;">
+            <div class="col-lg-1 col-md-2 col-xs-6" id="navbarSupportedContent" style="margin:20px 20px;">
+              <a id="navbar-txt" href="{{ url_for('home') }}">home</a>
+            </div>
+        </nav>
+    </div>
+  <div class="loader"></div>
+    <section class="content">
+      <header>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block header %}{% endblock %}
+      </header>
+      {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+      {% block content %}{% endblock %}
+    </section>
+  </div>
+  <script>
+    document.onreadystatechange = function() {
+        if (document.readyState !== "complete") {
+            document.querySelector("body").style.visibility = "hidden";
+            document.querySelector(".loader").style.visibility = "visible";
+        } else {
+            document.querySelector(".loader").style.display = "none";
+            document.querySelector("body").style.visibility = "visible";
+        }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+
+html, body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #1d1b1c;
+}
+
+# username-input {
+    background-color: #ddd;
+}
+
+.game-title {
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    color: #ed593f;
+    text-shadow: 3px 2px #f0acb7;
+}
+
+.show-word {
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    color: #ed593f;
+    margin-top: 50px;
+    text-shadow: 3px 2px #f0acb7;
+}
+
+.btn-style {
+    font-size: medium;
+    border: none;
+    width: 100%;
+    padding: 10px 20px;
+    font-weight: bold;
+    margin-top: 15px;
+    background-color: #0f5bd5;
+}
+
+.btn-style:hover {
+    box-shadow: 3px 3px #ed593f;
+}
+
+.input-style {
+    border: none;
+    padding: 10px;
+    width: 100%;
+    color: #0f5bd5;
+}
+
+.def-input {
+    border: none;
+    resize: none;
+    padding: 10px;
+    color: #0f5bd5;
+    width: 100%;
+    margin: auto;
+}
+
+.input-label {
+    font-size: medium;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.join-start {
+    font-weight: bold;
+    padding-top: 10px;
+    color: #f0acb7;
+}
+
+#navbar-txt {
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px 20px 15px 20px;
+    background-color: #0f5bd5;
+}
+
+#navbar-txt:hover {
+    box-shadow: 3px 3px #ed593f;
+    text-decoration: none;
+}
+
+.list-players {
+    list-style-type: none;
+    font-size: large;
+    padding: 0;
+}
+
+.players {
+    padding: 10px 0;
+}
+
+.red-box {
+    background-color: #ed593f;
+    padding: 20px 30px 50px 30px;
+}
+
+.code-display {
+    color: #f0acb7;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 2px 2px #ed593f;
+}
+
+input[type="radio"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"]:checked {
+  background-color: #ed593f;
+  border: 0.15em solid #ed593f;
+}
+
+.definition-box {
+    color: white;
+    background-color: #ed593f;
+    font-size: medium;
+    margin-top: 10px;
+    height: 100%;
+    padding: 10px 15px 5px 15px;
+}
+
+.dict-definition-box {
+    color: white;
+    background-color: #f0acb7;
+    font-size: medium;
+    margin-top: 10px;
+    height: 100%;
+    padding: 10px 15px 5px 15px;
+}
+
+.radio-defs label {
+    display: inline-block;
+    background-color: #f0acb7;
+    font-size: large;
+    width: 100%;
+    height: 5em;
+    padding: 10px 15px;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.radio-defs input[type="radio"]:checked + label {
+    background-color: #ed593f;
+}

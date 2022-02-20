@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}{% endblock %}</title>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap' rel='stylesheet'>
+  <link rel="stylesheet" href="/static/style.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+{% block content %}
+<body style="background-color: transparent; min-height:100%; color:white;">
+    <div class="container-fluid" style="margin-bottom: 50px; margin-top: 20px">
+      <h1 class="game-title">balderdash</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-1 col-xs-0"></div>
+        <div class="col-lg-6 col-xs-12">
+            <h3>Think you know words?? Think again!!!!</h3>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-lg-7 col-xs-12">
+                    <h3 class="join-start">start game:</h3>
+                </div>
+                <div class="col-lg-5 col-xs-12">
+                    <h3 class="join-start">join game:</h3>
+                </div>
+                <div class="col-lg-5" style="padding-top: 15px;">
+                  <form action="{{ url_for('home') }}" method="post">
+                      <label class="input-label" for="username">username</label>
+                      <br/>
+                      <input class="input-style" name="username" id="username">
+                      <input class="btn-style" id="createBtn" type="submit" value="start">
+                  </form>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-5" style="padding-top: 15px;">
+                    <form action="{{ url_for('home') }}" method="post">
+                      <label class="input-label" for="username_join">username</label>
+                        <br/>
+                      <input class="input-style" name="username_join" id="username_join">
+                        <br/>
+                        <br/>
+                      <label class="input-label" for="game_code">game code</label>
+                        <br/>
+                      <input class="input-style" name="game_code" id="game_code">
+                        <br/>
+                      <input class="btn-style" id="joinBtn" type="submit" value="join">
+                    </form>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 50px;">
+                <form action="{{ url_for('home') }}" method="post">
+                      <label class="input-label" for="username">new word</label>
+                      <br/>
+                      <input class="input-style" name="add_word" id="add_word">
+                      <input class="btn-style" id="addWord" type="submit" value="add word">
+                  </form>
+            </div>
+        </div>
+        <div class="col-lg-1 col-xs-0"></div>
+        <div class="col-lg-3 col-xs-12 red-box">
+            <h3>How to play</h3>
+            <p>What you do is make up a definition for the word you're presented with. Then you'll vote on which definition you think is right, and if someone votes for your definition, you get a point. If no one votes for your definition, you might want to rethink your life choices.</p>
+        </div>
+        <div class="col-lg-1 col-xs-0"></div>
+    </div>
+    <div class="row" style="margin-bottom: 100px;"></div>
+</body>
+{% endblock %}
