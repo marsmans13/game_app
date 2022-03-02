@@ -99,9 +99,9 @@ def create_game(game_code):
     if request.method == 'POST':
         word_games = WordGame.query.filter_by(game_id=game.game_id).all()
         if not word_games:
-            for i in range(2):
-                # num = random.randint(1, 100)
-                word = Word.query.filter_by(word_id=i+1).first()
+            for i in range(3):
+                num = random.randint(1, 24)
+                word = Word.query.filter_by(word_id=num).first()
                 word_list.append(word)
 
                 word_game = WordGame(game_id=game.game_id, word_id=word.word_id, word_num=i+1)
@@ -134,6 +134,7 @@ def new_word(word, game_code, word_num):
     print(request.method)
 
     if request.method == 'POST':
+        session.pop('_flashes', None)
 
         print('REQUEST', request.form.get('definition'))
 
@@ -144,7 +145,18 @@ def new_word(word, game_code, word_num):
             print("DEFINITION", definition)
             print("GAME CODE", game.game_code)
 
-        return redirect(url_for('vote', word=word, game_code=game.game_code, word_num=word_num))
+            word = Word.query.filter_by(word=word).first()
+
+            num_definitions = len(Definition.query.filter_by(game_id=game.game_id, word_id=word.word_id).all())
+            num_players = len(Player.query.filter_by(game_id=game.game_id).all())
+
+            show_defs= True
+
+            if (num_definitions + 1) != num_players:
+                flash("Hold on there, not everyone has entered their little definitions.")
+                show_defs = False
+
+            return redirect(url_for('vote', word=word.word, game_code=game.game_code, word_num=word_num, show_defs=show_defs))
 
     return render_template('show_word.html', word=word, game_code=game.game_code, word_num=word_num)
 
@@ -165,15 +177,16 @@ def define(word, game_id, username, definition):
 
 
 @app.route('/vote/<game_code>/<word>_<word_num>', methods=['POST', 'GET'])
-def vote(word, game_code, word_num):
+def vote(word, game_code, word_num, show_defs=True):
 
     game = Game.query.filter_by(game_code=game_code).all()[0]
     username = session.get('username')
     players = Player.query.filter_by(game_id=game.game_id).all()
+    print("word from url", word)
     word = Word.query.filter_by(word=word).first()
     print('word', word)
     show_results = False
-    cur_player = Player.query.filter_by(username=username).first()
+    cur_player = Player.query.filter_by(username=username, game_id=game.game_id).first()
     print('current player', cur_player)
 
     print('REQUEST', request.method)
@@ -214,11 +227,20 @@ def vote(word, game_code, word_num):
             definition = request.form.get('definitions')
             definition = Definition.query.filter_by(definition=definition, game_id=game.game_id).first()
             print('definition id', definition.definition_id)
+            print(type(definition.is_def))
+            print("CUR PLAYER", cur_player.player_id, cur_player.username)
 
-            new_vote = Vote(voter=cur_player.player_id,
-                            vote_receiver=definition.player_id,
-                            definition_id=definition.definition_id,
-                            game_id=game.game_id)
+            if definition.is_def:
+                new_vote = Vote(voter=cur_player.player_id,
+                                vote_receiver=cur_player.player_id,
+                                definition_id=definition.definition_id,
+                                game_id=game.game_id)
+
+            else:
+                new_vote = Vote(voter=cur_player.player_id,
+                                vote_receiver=definition.player_id,
+                                definition_id=definition.definition_id,
+                                game_id=game.game_id)
             db.session.add(new_vote)
             db.session.commit()
             print('new vote', new_vote)
@@ -246,16 +268,17 @@ def vote(word, game_code, word_num):
 
                     vote_results[player.username] = [def_obj, voters]
 
+                print("VOTE Q", player.username, player.player_id, Vote.query.filter_by(vote_receiver=player.player_id).all())
                 player_votes = len(Vote.query.filter_by(vote_receiver=player.player_id).all())
                 scores[player.username] = player_votes
 
             print(vote_results)
             print(scores)
 
-            return render_template('vote.html', definitions=vote_results, word=word, game_code=game.game_code,
-                                   word_num=word_num, show_results=show_results, scores=scores)
+            return render_template('vote.html', definitions=vote_results, word=word.word, game_code=game.game_code,
+                                   word_num=word_num, show_results=show_results, scores=scores, show_defs=show_defs)
 
-    return render_template('vote.html', definitions=definitions, word=word, game_code=game.game_code, word_num=word_num, show_results=show_results)
+    return render_template('vote.html', definitions=definitions, word=word.word, game_code=game.game_code, word_num=word_num, show_results=show_results, show_defs=show_defs)
 
 
 @app.route('/scores/<game_code>', methods=['POST', 'GET'])

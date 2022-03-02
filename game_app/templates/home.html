@@ -13,31 +13,43 @@
 </head>
 {% block content %}
 <body style="background-color: transparent; min-height:100%; color:white;">
-    <div class="container-fluid" style="margin-bottom: 50px; margin-top: 20px">
-      <h1 class="game-title">balderdash</h1>
+    <div class="row">
+        <div class="col-lg-1 col-sm-1 col-xs-0"></div>
+        <div class="col-lg-10 col-sm-10 col-xs-12" style="margin-bottom: 30px;">
+            <div class="row">
+                <div class="col-lg-4 col-sm-4 col-xs-8">
+                    <img src="/static/updated-logo.png" class="logo">
+                </div>
+                <div class="col-sm-0 col-xs-4"></div>
+                <div class="col-lg-8 col-sm-8 col-xs-12">
+                    <h1 class="game-title" style="overflow-wrap: break-word;hyphens: manual;">balder&shy;smash</h1>
+                    <br/>
+                    <h4>Think you know words?? Think again!!!!</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1 col-sm-1 col-xs-0"></div>
     </div>
 
     <div class="row">
         <div class="col-lg-1 col-xs-0"></div>
         <div class="col-lg-6 col-xs-12">
-            <h3>Think you know words?? Think again!!!!</h3>
-            <div class="row" style="margin-top: 50px;">
-                <div class="col-lg-7 col-xs-12">
-                    <h3 class="join-start">start game:</h3>
-                </div>
+
+            <div class="row" style="margin-top: 0;">
                 <div class="col-lg-5 col-xs-12">
-                    <h3 class="join-start">join game:</h3>
-                </div>
-                <div class="col-lg-5" style="padding-top: 15px;">
-                  <form action="{{ url_for('home') }}" method="post">
+                    <h3 class="join-start">start game:</h3>
+                    <br/>
+                    <form action="{{ url_for('home') }}" method="post">
                       <label class="input-label" for="username">username</label>
                       <br/>
                       <input class="input-style" name="username" id="username">
                       <input class="btn-style" id="createBtn" type="submit" value="start">
                   </form>
                 </div>
-                <div class="col-lg-2"></div>
-                <div class="col-lg-5" style="padding-top: 15px;">
+                <div class="col-lg-2 col-xs-12"></div>
+                <div class="col-lg-5 col-xs-12">
+                    <h3 class="join-start">join game:</h3>
+                    <br/>
                     <form action="{{ url_for('home') }}" method="post">
                       <label class="input-label" for="username_join">username</label>
                         <br/>
@@ -52,7 +64,7 @@
                     </form>
                 </div>
             </div>
-            <div class="row" style="margin-top: 50px;">
+            <div class="row" style="margin-top: 300px;">
                 <form action="{{ url_for('home') }}" method="post">
                       <label class="input-label" for="username">new word</label>
                       <br/>
@@ -63,8 +75,8 @@
         </div>
         <div class="col-lg-1 col-xs-0"></div>
         <div class="col-lg-3 col-xs-12 red-box">
-            <h3>How to play</h3>
-            <p>What you do is make up a definition for the word you're presented with. Then you'll vote on which definition you think is right, and if someone votes for your definition, you get a point. If no one votes for your definition, you might want to rethink your life choices.</p>
+            <h2>how to play</h2>
+            <p class="instructions">What you do is make up a definition for the word you're presented with. Then you'll vote on which definition you think is right, and if someone votes for your definition or you vote for the dictionary definition, you get a point. If no one votes for your definition, you might want to rethink your life choices.</p>
         </div>
         <div class="col-lg-1 col-xs-0"></div>
     </div>

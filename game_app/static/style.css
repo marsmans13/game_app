@@ -10,11 +10,12 @@ html, body {
 }
 
 .game-title {
-    font-size: 60px;
+    font-size: 80px;
     font-weight: bold;
-    text-align: center;
+    text-align: left;
     color: #ed593f;
     text-shadow: 3px 2px #f0acb7;
+    margin-top: 50px;
 }
 
 .show-word {
@@ -27,7 +28,7 @@ html, body {
 }
 
 .btn-style {
-    font-size: medium;
+    font-size: large;
     border: none;
     width: 100%;
     padding: 10px 20px;
@@ -82,6 +83,31 @@ html, body {
     text-decoration: none;
 }
 
+.logo {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 200px;
+    float: right;
+}
+
+#a-btn {
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 15px 20px 15px 20px;
+    background-color: #0f5bd5;
+}
+
+#a-btn:hover {
+    box-shadow: 3px 3px #ed593f;
+    text-decoration: none;
+}
+
 .list-players {
     list-style-type: none;
     font-size: large;
@@ -94,7 +120,12 @@ html, body {
 
 .red-box {
     background-color: #ed593f;
-    padding: 20px 30px 50px 30px;
+    padding: 20px 30px 40px 30px;
+}
+
+.blue-box {
+    background-color: #0f5bd5;
+    padding: 20px 30px 40px 30px;
 }
 
 .code-display {
@@ -154,4 +185,10 @@ input[type="radio"]:checked {
 
 .radio-defs input[type="radio"]:checked + label {
     background-color: #ed593f;
+}
+
+.instructions {
+    font-size: medium;
+    margin-top: 20px;
+    line-height: 1.75;
 }

@@ -14,15 +14,15 @@
 {% block content %}
 <body style="background-color: transparent; min-height:100%; color:white;">
     <div class="row">
-        <div class="col-lg-4 col-xs-0"></div>
-        <div class="col-lg-4 col-xs-12">
-            <h2 class="show-word"> {{ word }} </h2>
+        <div class="col-lg-1 col-xs-0"></div>
+        <div class="col-lg-6 col-xs-12">
+            <h2 class="show-word" style="text-align:center"> {{ word }} </h2>
         </div>
-        <div class="col-lg-4 col-xs-0"></div>
+        <div class="col-lg-5 col-xs-0"></div>
     </div>
     <div class="row" style="margin: 100px 0">
-        <div class="col-lg-3 col-md-1 col-xs-0"></div>
-        <div class="col-lg-6 col-md-10 col-xs-12">
+        <div class="col-lg-1 col-md-1 col-xs-0"></div>
+        <div class="col-lg-6 col-md-10 col-xs-12" style="margin-bottom: 30px;">
             <form action="{{ url_for('new_word', word=word, game_code=game_code, word_num=word_num) }}" method="post">
                 <label class="input-label" for="definition">good luck defining {{ word }}...</label>
                 <textarea class="def-input" name="definition" id="definition" rows="5" cols="100"></textarea>
@@ -30,7 +30,16 @@
                 <input class="btn-style" id="definitionSubmit" type="submit" value="submit">
             </form>
         </div>
-    <div class="col-lg-3 col-md-1 col-xs-0"></div>
+        <div class="col-lg-1 col-md-1 col-xs-0"></div>
+        <div class="col-lg-3 col-xs-12 red-box">
+            <h3>blazing hot tip</h3>
+            <p class="instructions">Use only lowercase letters and don't add punctuation to the end.
+                This keeps all of the definitions consistent, and you won't give yourself away with your excessive usage of ellipses...
+            <br/><br/>
+                If you don't use lowercase letters and add punctuation to the end, I'm going to reach through the computer and do it for you.
+            </p>
+        </div>
+        <div class="col-lg-1 col-md-1 col-xs-0"></div>
     </div>
 
 </body>
