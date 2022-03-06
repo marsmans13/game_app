@@ -32,8 +32,8 @@
         </div>
         <div class="col-lg-1 col-md-1 col-xs-0"></div>
         <div class="col-lg-3 col-xs-12 red-box">
-            <h3>blazing hot tip</h3>
-            <p class="instructions">Use only lowercase letters and don't add punctuation to the end.
+            <button class="click-btn" onclick="clickFunction()">blazing hot tip</button>
+            <p id="dropDown" class="instructions">Use only lowercase letters and don't add punctuation to the end.
                 This keeps all of the definitions consistent, and you won't give yourself away with your excessive usage of ellipses...
             <br/><br/>
                 If you don't use lowercase letters and add punctuation to the end, I'm going to reach through the computer and do it for you.
@@ -43,4 +43,22 @@
     </div>
 
 </body>
+<script type="text/javascript">
+    var x = 1;
+    $(document).ready(function() {
+        $('#dropDown').hide();
+    });
+
+    function clickFunction() {
+        if (x == 1) {
+            $('#dropDown').show();
+            x -= 1;
+        }
+        else {
+            $('#dropDown').hide();
+            x += 1;
+        }
+    };
+
+</script>
 {% endblock %}

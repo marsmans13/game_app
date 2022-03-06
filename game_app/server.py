@@ -51,11 +51,13 @@ def home():
             return redirect(url_for('home'))
 
         print("GAME: ", game)
-
-        player = Player(username=username, game_id=game.game_id)
         session['username'] = username
-        db.session.add(player)
-        db.session.commit()
+
+        existing_player = Player.query.filter_by(username=username, game_id=game.game_id).all()
+        if not existing_player:
+            player = Player(username=username, game_id=game.game_id)
+            db.session.add(player)
+            db.session.commit()
 
         return redirect(url_for('create_game', game_code=game_code))
 
@@ -102,6 +104,8 @@ def create_game(game_code):
             for i in range(3):
                 num = random.randint(1, 24)
                 word = Word.query.filter_by(word_id=num).first()
+                if not word:
+                    pass
                 word_list.append(word)
 
                 word_game = WordGame(game_id=game.game_id, word_id=word.word_id, word_num=i+1)
@@ -142,9 +146,6 @@ def new_word(word, game_code, word_num):
             definition = request.form.get('definition')
             print("word in request:", word)
             define(word, game.game_id, username, definition)
-            print("DEFINITION", definition)
-            print("GAME CODE", game.game_code)
-
             word = Word.query.filter_by(word=word).first()
 
             num_definitions = len(Definition.query.filter_by(game_id=game.game_id, word_id=word.word_id).all())
@@ -152,7 +153,7 @@ def new_word(word, game_code, word_num):
 
             show_defs= True
 
-            if (num_definitions + 1) != num_players:
+            if num_definitions < (num_players + 1):
                 flash("Hold on there, not everyone has entered their little definitions.")
                 show_defs = False
 
@@ -169,20 +170,22 @@ def define(word, game_id, username, definition):
     print('word in define', word)
     word = Word.query.filter_by(word=word).first()
 
-    definition = Definition(player_id=player.player_id, word_id=word.word_id, definition=definition.lower(), game_id=game_id)
-    db.session.add(definition)
-    db.session.commit()
+    existing_def = Definition.query.filter_by(player_id=player.player_id, word_id=word.word_id, game_id=game_id).all()
+
+    if not existing_def:
+        definition = Definition(player_id=player.player_id, word_id=word.word_id, definition=definition.lower(), game_id=game_id)
+        db.session.add(definition)
+        db.session.commit()
 
     return None
 
 
-@app.route('/vote/<game_code>/<word>_<word_num>', methods=['POST', 'GET'])
-def vote(word, game_code, word_num, show_defs=True):
+@app.route('/vote/<game_code>/<word>_<word_num>/<show_defs>', methods=['POST', 'GET'])
+def vote(word, game_code, word_num, show_defs):
 
     game = Game.query.filter_by(game_code=game_code).all()[0]
     username = session.get('username')
     players = Player.query.filter_by(game_id=game.game_id).all()
-    print("word from url", word)
     word = Word.query.filter_by(word=word).first()
     print('word', word)
     show_results = False
@@ -206,7 +209,6 @@ def vote(word, game_code, word_num, show_defs=True):
         print('TYPE POST')
         print('DEFINITION: ', request.form.get('definitions'))
 
-        show_results = True
         print('NEXT WORD', request.form.get('next_word'))
 
         if request.form.get('next_word'):
@@ -224,6 +226,7 @@ def vote(word, game_code, word_num, show_defs=True):
             return redirect(url_for('new_word', word=next_word.word, game_code=game.game_code, word_num=word_num))
 
         if request.form.get('definitions'):
+            show_results = True
             definition = request.form.get('definitions')
             definition = Definition.query.filter_by(definition=definition, game_id=game.game_id).first()
             print('definition id', definition.definition_id)
