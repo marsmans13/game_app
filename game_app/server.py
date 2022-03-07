@@ -75,6 +75,9 @@ def add_new_word(new_word_f):
 
         d = PyDictionary()
         def_dict = d.meaning(new_word_f.lower())
+        if not def_dict:
+            flash("No definition found")
+            return
         print("DEF FROM DICT", def_dict)
         for obj in def_dict:
             def_key = obj
@@ -101,8 +104,8 @@ def create_game(game_code):
     if request.method == 'POST':
         word_games = WordGame.query.filter_by(game_id=game.game_id).all()
         if not word_games:
-            for i in range(3):
-                num = random.randint(1, 24)
+            for i in range(10):
+                num = random.randint(1, 49)
                 word = Word.query.filter_by(word_id=num).first()
                 if not word:
                     pass
