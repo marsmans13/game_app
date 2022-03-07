@@ -105,7 +105,7 @@ def create_game(game_code):
         word_games = WordGame.query.filter_by(game_id=game.game_id).all()
         if not word_games:
             for i in range(10):
-                num = random.randint(1, 49)
+                num = random.randint(168, 216)
                 word = Word.query.filter_by(word_id=num).first()
                 if not word:
                     pass
