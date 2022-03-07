@@ -5,3 +5,6 @@ __pycache__/
 .idea/
 config.py
 *.sh
+migrations/
+flask.log
+nginx.conf
