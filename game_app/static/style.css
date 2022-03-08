@@ -124,7 +124,14 @@ html, body {
 }
 
 .players {
-    padding: 10px 0;
+    text-align: center;
+}
+
+.avatars {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 125px;
 }
 
 .red-box {

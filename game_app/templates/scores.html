@@ -39,7 +39,9 @@
     <div class="row">
         <div class="col-lg-5 col-sm-4 col-xs-1"></div>
         <div class="col-lg-2 col-sm-4 col-xs-10" style="padding-top: 15px;">
-            <a id="a-btn" href="{{ url_for('home') }}">play again</a>
+            <form action="{{ url_for('show_scores', game_code=game_code)}}" method="post">
+                <input class="btn-style" style="width:300px;" id="endGame" type="submit" value="play again">
+            </form>
         </div>
         <div class="col-lg-5 col-sm-4 col-xs-1"></div>
     </div>

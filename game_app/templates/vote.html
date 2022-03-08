@@ -21,6 +21,7 @@
         <div class="col-lg-4 col-xs-0"></div>
     </div>
     <div id="showDefsBool" style="visibility:hidden">{{ show_defs }}</div>
+    <div id="showResultsBool" style="visibility:hidden">{{ show_results }}</div>
     <div class="row" style="margin-top: 50px;" id="showDefinitionsID">
         {% if not show_results %}
             <div class="col-lg-3 col-sm-2 col-xs-0"></div>
@@ -39,52 +40,54 @@
             </div>
             <div class="col-lg-3 col-sm-2 col-xs-0"></div>
         {% elif show_results %}
-            <div class="col-lg-1 col-xs-0"></div>
-            <div class="col-lg-6 col-sm-12" style="margin-bottom: 50px;">
-                {% for definition in definitions %}
-                    <div class="row">
-                        {% if definition == 'dictionary' %}
-                        <div class="col-lg-9 col-sm-10 dict-definition-box">
-                            <p>{{ definition }}</p>
-                            <p>{{ definitions[definition][0].definition }}</p>
-                        </div>
-                        {% else %}
-                        <div class="col-lg-9 col-sm-10 definition-box">
-                            <p>{{ definition }}</p>
-                            <p>{{ definitions[definition][0].definition }}</p>
-                        </div>
-                        {% endif %}
-                        <div class="col-lg-3 col-sm-2" style="margin-top:10px">
-                            {% if definitions[definition][1] in ("None", []) %}
-                                <p>No votes :(</p>
+            <div id="showResultsID">
+                <div class="col-lg-1 col-xs-0"></div>
+                <div class="col-lg-6 col-sm-12" style="margin-bottom: 50px;">
+                    {% for definition in definitions %}
+                        <div class="row">
+                            {% if definition == 'dictionary' %}
+                            <div class="col-lg-9 col-sm-10 dict-definition-box">
+                                <p>{{ definition }}</p>
+                                <p>{{ definitions[definition][0].definition }}</p>
+                            </div>
                             {% else %}
-                                {% for voter in definitions[definition][1] %}
-                                    <span>{{ voter }}</span>
-                                {% endfor %}
+                            <div class="col-lg-9 col-sm-10 definition-box">
+                                <p>{{ definition }}</p>
+                                <p>{{ definitions[definition][0].definition }}</p>
+                            </div>
                             {% endif %}
+                            <div class="col-lg-3 col-sm-2" style="margin-top:10px">
+                                {% if definitions[definition][1] in ("None", []) %}
+                                    <p>No votes :(</p>
+                                {% else %}
+                                    {% for voter in definitions[definition][1] %}
+                                        <span>{{ voter }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-                <form action="{{ url_for('vote', word=word, game_code=game_code, word_num=word_num, show_defs=show_defs) }}" method="POST">
-                    <label for="next_word"></label>
-                    <input class="btn-style" style="width: 150px;" type="submit" id="next_word" name="next_word" value="next word">
-                </form>
+                    {% endfor %}
+                    <form action="{{ url_for('vote', word=word, game_code=game_code, word_num=word_num, show_defs=show_defs) }}" method="POST">
+                        <label for="next_word"></label>
+                        <input class="btn-style" style="width: 150px;" type="submit" id="next_word" name="next_word" value="next word">
+                    </form>
+                </div>
+                <div class="col-lg-1 col-xs-0"></div>
+                <div class="col-lg-3 col-xs-12 blue-box">
+                    <h2 style="margin-bottom: 30px">scores</h2>
+                    {% for score in scores %}
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-lg-6 col-xs-6">
+                                <h4>{{ score }}</h4>
+                            </div>
+                            <div class="col-lg-6 col-xs-6">
+                                <h4>{{ scores[score] }}</h4>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-1 col-xs-0"></div>
             </div>
-            <div class="col-lg-1 col-xs-0"></div>
-            <div class="col-lg-3 col-xs-12 blue-box">
-                <h2 style="margin-bottom: 30px">scores</h2>
-                {% for score in scores %}
-                    <div class="row" style="margin-bottom: 15px;">
-                        <div class="col-lg-6 col-xs-6">
-                            <h4>{{ score }}</h4>
-                        </div>
-                        <div class="col-lg-6 col-xs-6">
-                            <h4>{{ scores[score] }}</h4>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="col-lg-1 col-xs-0"></div>
         {% endif %}
     </div>
 
@@ -95,10 +98,17 @@
 </body>
 <script type="text/javascript">
     var show_defs = '{{ show_defs }}';
-    console.log(show_defs);
+    console.log('show defs ' + show_defs);
+
+    var show_results = '{{ show_results }}';
+    console.log('show results ' + show_results);
+
     var game_code = '{{ game_code }}';
+
     var word = '{{ word }}';
     var word_num = '{{ word_num }}';
+    console.log('I will console.log as many things as I damn well please');
+
     $(document).ready(function() {
         if (show_defs == 'False') {
             $('#showDefinitionsID').hide();
@@ -107,6 +117,12 @@
         else {
             $('#hideDefinitions').hide();
             $('#showDefinitionsID').show();
+        }
+        if (show_results == 'False') {
+            $('#showResultsID').hide();
+        }
+        else {
+            $('#showResultsID').show();
         }
     });
     function showDefinitions() {
@@ -126,7 +142,28 @@
        return t;
     };
 
-    //compare and update every 10 seconds
-    setInterval(showDefinitions, 10000);
+    function showResultsFunct() {
+        $.ajax("{{ url_for('vote', game_code=game_code, word=word, word_num=word_num, show_defs=show_defs) }}").done(function (reply) {
+          console.log(reply);
+        var res = $($.parseHTML(reply)).find("#showResultsBool").html();
+        if (res == 'False') {
+            $('#showResultsID').hide();
+            $('#hideDefinitions').show();
+          }
+          else {
+            $('#hideDefinitions').hide();
+            $('#showResultsID').show();
+          }
+        });
+    }
+
+    //compare and update every 8 seconds
+    if (show_results == 'True') {
+        setInterval(showResultsFunct, 8000);
+    }
+    else {
+        setInterval(showDefinitions, 8000);
+    }
+
 </script>
 {% endblock %}
