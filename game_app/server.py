@@ -7,7 +7,7 @@ from flask import (
 from PyDictionary import PyDictionary
 import string
 import random
-from game_app.models import Game, Player, Word, Definition, WordGame, Vote
+from game_app.models import Game, Player, Word, Definition, WordGame, Vote, Avatar
 
 
 list_of_words = ['abac', 'abduce', 'acyclovir', 'galactagogue', 'flibbert', 'euglobulin', 'handlanger', 'jiz',
@@ -49,6 +49,10 @@ def home():
             if not game:
                 flash("Incorrect game code")
                 return redirect(url_for('home'))
+            num_players = Player.query.filter_by(game_id=game[0].game_id).all()
+            if len(num_players) >= 8:
+                flash("I'm sorry this game is so popular it's full :/")
+                return redirect(url_for('home'))
             game = game[0]
         else:
             flash("Incorrect game code you silly goose")
@@ -59,7 +63,12 @@ def home():
 
         existing_player = Player.query.filter_by(username=username, game_id=game.game_id).all()
         if not existing_player:
-            player = Player(username=username, game_id=game.game_id)
+            cur_players = Player.query.filter_by(game_id=game.game_id).all()
+            if cur_players:
+                avatar_id = len(cur_players) + 1
+            else:
+                avatar_id = 1
+            player = Player(username=username, game_id=game.game_id, avatar_id=avatar_id)
             db.session.add(player)
             db.session.commit()
 
@@ -80,7 +89,6 @@ def add_new_word(new_word_f):
         d = PyDictionary()
         def_dict = d.meaning(new_word_f.lower())
         if not def_dict:
-            flash("No definition found")
             return
         print("DEF FROM DICT", def_dict)
         for obj in def_dict:
@@ -103,16 +111,21 @@ def create_game(game_code):
     print('GAME CODE FROM CREATE_GAME:', game_code)
     game = Game.query.filter_by(game_code=game_code).all()[0]
 
-    players_in_game = Player.query.filter_by(game_id=game.game_id).all()
+    players_in_game = []
+    players = Player.query.filter_by(game_id=game.game_id).all()
+    for player in players:
+        avatar_path = Avatar.query.filter_by(avatar_id=player.avatar_id).first().path
+        players_in_game.append((player, avatar_path))
     word_list = []
     if request.method == 'POST':
         word_games = WordGame.query.filter_by(game_id=game.game_id).all()
         if not word_games:
             l_nums = []
-            for i in range(1, 11):
-                num = random.randint(168, 216)
+            for i in range(1, 3):
+                # num = random.randint(168, 216)
+                num = random.randint(11, 24)
                 while num in l_nums:
-                    num = random.randint(168, 216)
+                    num = random.randint(11, 24)
                 l_nums.append(num)
                 word = Word.query.filter_by(word_id=num).first()
                 word_list.append(word)
@@ -156,6 +169,7 @@ def new_word(word, game_code, word_num):
             print("word in request:", word)
             define(word, game.game_id, username, definition)
             word = Word.query.filter_by(word=word).first()
+            print("game", game)
 
             num_definitions = len(Definition.query.filter_by(game_id=game.game_id, word_id=word.word_id).all())
             num_players = len(Player.query.filter_by(game_id=game.game_id).all())
@@ -224,7 +238,6 @@ def vote(word, game_code, word_num, show_defs):
         show_defs = True
 
         if num_definitions < (num_players + 1):
-            flash("Hold on there, not everyone has entered their little definitions.")
             show_defs = False
 
     if request.method == 'POST':

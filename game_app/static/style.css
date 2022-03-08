@@ -208,3 +208,9 @@ input[type="radio"]:checked {
     margin-top: 20px;
     line-height: 1.75;
 }
+
+.hidden-message {
+    text-align: center;
+    font-size: large;
+    color: white;
+}

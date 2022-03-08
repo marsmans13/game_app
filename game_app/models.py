@@ -20,6 +20,7 @@ class Player(db.Model):
     player_id = Column('player_id', Integer, primary_key=True)
     username = Column('username', String(15))
     game_id = Column(Integer, ForeignKey('game.game_id'))
+    avatar_id = Column(Integer, ForeignKey('avatar.avatar_id'))
 
     def __repr__(self):
         return '<Player {}>'.format(self.username)
@@ -77,3 +78,14 @@ class Vote(db.Model):
 
     def __repr__(self):
         return '<Voter {} Vote Receiver {}>'.format(self.voter, self.vote_receiver)
+
+
+class Avatar(db.Model):
+
+    __tablename__ = "avatar"
+
+    avatar_id = Column('avatar_id', Integer, primary_key=True)
+    path = Column('path', String(50))
+
+    def __repr__(self):
+        return '<Avatar ID {} Path {}>'.format(self.avatar_id, self.path)

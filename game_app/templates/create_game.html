@@ -40,14 +40,14 @@
             <h2 style="margin-bottom:25px;">players</h2>
             <div id="listPlayers">
                 <ul class="list-players">
-                    {% for player_in_game in players_in_game %}
                     <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <li><img class="avatars" src="/static/avatar-blush.png"></li>
-                            <li class="players"> {{ player_in_game.username }} </li>
-                        </div>
+                        {% for player_in_game in players_in_game %}
+                            <div class="col-sm-6 col-xs-12">
+                                <li><img class="avatars" src="{{ player_in_game[1] }}"></li>
+                                <li class="players"> {{ player_in_game[0].username }} </li>
+                            </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </ul>
             </div>
         </div>
