@@ -121,11 +121,10 @@ def create_game(game_code):
         word_games = WordGame.query.filter_by(game_id=game.game_id).all()
         if not word_games:
             l_nums = []
-            for i in range(1, 3):
-                # num = random.randint(168, 216)
-                num = random.randint(11, 24)
+            for i in range(1, 11):
+                num = random.randint(168, 216)
                 while num in l_nums:
-                    num = random.randint(11, 24)
+                    num = random.randint(168, 216)
                 l_nums.append(num)
                 word = Word.query.filter_by(word_id=num).first()
                 word_list.append(word)
