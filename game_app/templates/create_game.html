@@ -43,7 +43,7 @@
                     <div class="row">
                         {% for player_in_game in players_in_game %}
                             <div class="col-sm-6 col-xs-12">
-                                <li><img class="avatars" src="{{ player_in_game[1] }}"></li>
+                                <li><img class="avatars" style="display:block;" src="{{ player_in_game[1] }}"></li>
                                 <li class="players"> {{ player_in_game[0].username }} </li>
                             </div>
                         {% endfor %}
