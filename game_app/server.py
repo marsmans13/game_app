@@ -44,7 +44,7 @@ def home():
 
         elif request.form.get('game_code'):
             username = request.form['username_join']
-            game_code = request.form.get('game_code')
+            game_code = request.form.get('game_code').strip()
             game = Game.query.filter_by(game_code=game_code).all()
             if not game:
                 flash("Incorrect game code")
@@ -194,7 +194,7 @@ def define(word, game_id, username, definition):
     existing_def = Definition.query.filter_by(player_id=player.player_id, word_id=word.word_id, game_id=game_id).all()
 
     if not existing_def:
-        definition = Definition(player_id=player.player_id, word_id=word.word_id, definition=definition.lower(), game_id=game_id)
+        definition = Definition(player_id=player.player_id, word_id=word.word_id, definition=definition.lower().rstrip('.!?'), game_id=game_id)
         db.session.add(definition)
         db.session.commit()
 
@@ -380,10 +380,12 @@ def show_scores(game_code):
     for player in players:
         try:
             votes = Vote.query.filter_by(vote_receiver=player.player_id).all()
+            avatar = Avatar.query.filter_by(avatar_id=player.avatar_id).first()
             points = len(votes)
-            scores[player.username] = points
+            scores[player.username] = [points, avatar.path]
         except Exception as e:
             print('Error:', e)
-    sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    sorted_scores = sorted(scores.items(), key=lambda x: x[1][0], reverse=True)
+    print(sorted_scores)
 
     return render_template('scores.html', scores=sorted_scores, game_code=game_code)

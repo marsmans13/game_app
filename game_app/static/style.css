@@ -141,6 +141,10 @@ html, body {
     padding-left: 0;
 }
 
+.final-avatar {
+    width: 120px;
+}
+
 .score-nums {
     display: inline-block;
     vertical-align: middle;

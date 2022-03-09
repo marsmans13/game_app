@@ -40,9 +40,9 @@
                     <h3 class="join-start">start game:</h3>
                     <br/>
                     <form action="{{ url_for('home') }}" method="post">
-                      <label class="input-label" for="username">username</label>
+                      <label class="input-label" for="username">name</label>
                       <br/>
-                      <input class="input-style" name="username" id="username">
+                      <input class="input-style" name="username" id="username" maxlength="15">
                       <input class="btn-style" id="createBtn" type="submit" value="start">
                   </form>
                 </div>
@@ -51,9 +51,9 @@
                     <h3 class="join-start">join game:</h3>
                     <br/>
                     <form action="{{ url_for('home') }}" method="post">
-                      <label class="input-label" for="username_join">username</label>
+                      <label class="input-label" for="username_join">name</label>
                         <br/>
-                      <input class="input-style" name="username_join" id="username_join">
+                      <input class="input-style" name="username_join" id="username_join" maxlength="15">
                         <br/>
                         <br/>
                       <label class="input-label" for="game_code">game code</label>

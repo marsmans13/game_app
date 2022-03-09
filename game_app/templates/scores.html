@@ -25,10 +25,11 @@
                 <div class="row">
                     <div class="col-lg-1 col-sm-1 col-xs-1"></div>
                     <div class="col-lg-5 col-sm-5 col-xs-5" style="margin-top:20px;">
-                        <p style="font-size:2em">{{ score[0] }}</p>
+                        <img class="avatar-scores final-avatar" src="{{ score[1][1] }}">
+                        <p style="font-size:2em; display: inline-block;">{{ score[0] }}</p>
                     </div>
-                    <div class="col-lg-5 col-sm-5 col-xs-5" style="text-align:right;margin-top:20px;">
-                        <p style="font-size:2em">{{ score[1] }}</p>
+                    <div class="col-lg-5 col-sm-5 col-xs-5" style="text-align:right; height: 120px; line-height: 130px; text-align:right;">
+                        <p class="score-nums" style="font-size:2em;">{{ score[1][0] }}</p>
                     </div>
                     <div class="col-lg-1 col-sm-1 col-xs-1"></div>
                 </div>

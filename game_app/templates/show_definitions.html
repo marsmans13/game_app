@@ -12,7 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 {% block content %}
-<body style="background-color: transparent; min-height:100%; color:white;">
+<body style="background-color: transparent; min-height:100%; color:white; visibility:hidden">
     <div class="row">
         <div class="col-lg-4 col-xs-0"></div>
         <div class="col-lg-4 col-xs-12">
@@ -43,6 +43,7 @@
                         {% else %}
                             {% for voter in definitions[definition][1] %}
                                 <span>{{ voter }}</span>
+                                <br/>
                             {% endfor %}
                         {% endif %}
                     </div>
