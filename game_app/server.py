@@ -330,7 +330,8 @@ def show_vote_results(game_code, word, word_num):
 
         print("VOTE Q", player.username, player.player_id, Vote.query.filter_by(vote_receiver=player.player_id).all())
         player_votes = len(Vote.query.filter_by(vote_receiver=player.player_id).all())
-        scores[player.username] = player_votes
+        avatar = Avatar.query.filter_by(avatar_id=player.avatar_id).first()
+        scores[player.username] = [player_votes, avatar.path]
 
     print(vote_results)
     print(scores)
@@ -363,7 +364,9 @@ def show_scores(game_code):
         Definition.query.filter_by(game_id=game.game_id).delete()
         WordGame.query.filter_by(game_id=game.game_id).delete()
         Player.query.filter_by(game_id=game.game_id).delete()
-        Game.query.filter_by(game_id=game.game_id).delete()
+        remaining_players = Player.query.filter_by(game_id=game.game_id).all()
+        if not remaining_players:
+            Game.query.filter_by(game_id=game.game_id).delete()
         db.session.commit()
 
         print("deleted records")

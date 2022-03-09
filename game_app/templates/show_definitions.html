@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-lg-4 col-xs-0"></div>
         <div class="col-lg-4 col-xs-12">
-            <h2 class="show-word">{{ word.word }}</h2>
+            <h2 class="show-word">{{ word }}</h2>
         </div>
         <div class="col-lg-4 col-xs-0"></div>
     </div>
@@ -55,14 +55,15 @@
         </div>
         <div class="col-lg-1 col-xs-0"></div>
         <div class="col-lg-3 col-xs-12 blue-box">
-            <h2 style="margin-bottom: 30px">scores</h2>
+            <h2 style="margin-bottom: 30px; padding-left:10px;">scores</h2>
             {% for score in scores %}
                 <div class="row" style="margin-bottom: 15px;">
-                    <div class="col-lg-6 col-xs-6">
-                        <h4>{{ score }}</h4>
+<!--                    <div class="col-lg-12" style="padding:0"><img class="avatar-scores" src="{{ scores[score][1] }}"></div>-->
+                    <div class="col-lg-6 col-xs-6" style="padding-left: 0">
+                        <img class="avatar-scores" src="{{ scores[score][1] }}"><h4 style="display: inline-block;">{{ score }}</h4>
                     </div>
-                    <div class="col-lg-6 col-xs-6">
-                        <h4>{{ scores[score] }}</h4>
+                    <div class="col-lg-6 col-xs-6" style="height: 100px; line-height: 100px; text-align:right;">
+                        <h4 class="score-nums">{{ scores[score][0] }}</h4>
                     </div>
                 </div>
             {% endfor %}
@@ -102,18 +103,20 @@
         var res = $($.parseHTML(reply)).find("#showResultsBool").html();
         if (res == 'False') {
             $('#showResultsID').hide();
-            $('#hideDefinitions').show();
+            $('#hideResults').show();
           }
           else {
-            $('#hideDefinitions').hide();
+            $('#hideResults').hide();
+            var defs_html = $($.parseHTML(reply)).find("#showResultsID").html();
+            $('#showResultsID').html(defs_html);
             $('#showResultsID').show();
           }
         });
     }
 
-    //compare and update every 8 seconds
+    //compare and update every 5 seconds
     if (show_results == 'False') {
-        setInterval(showResultsFunct, 8000);
+        setInterval(showResultsFunct, 5000);
     }
 
 </script>

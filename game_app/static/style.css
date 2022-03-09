@@ -128,10 +128,24 @@ html, body {
 }
 
 .avatars {
-    display: block;
+    display: inline-block;
     margin-left: auto;
     margin-right: auto;
-    width: 125px;
+    width: 100px;
+}
+
+.avatar-scores {
+    display: inline-block;
+    width: 100px;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.score-nums {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 15px;
+    padding-right: 30px;
 }
 
 .red-box {
