@@ -161,6 +161,7 @@ html, body {
 .blue-box {
     background-color: #0f5bd5;
     padding: 20px 30px 40px 30px;
+    margin-bottom: 50px;
 }
 
 .code-display {

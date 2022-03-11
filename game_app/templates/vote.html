@@ -23,7 +23,7 @@
     <div id="showDefsBool" style="visibility:hidden">{{ show_defs }}</div>
     <div class="row" style="margin-top: 50px;" id="showDefinitionsID">
         <div class="col-lg-3 col-sm-2 col-xs-0"></div>
-        <div class="col-lg-6 col-sm-8 col-xs-12">
+        <div class="col-lg-6 col-sm-8 col-xs-12" style="margin-bottom: 50px;">
             <form action="{{ url_for('vote', word=word, game_code=game_code, word_num=word_num, show_defs=show_defs) }}" method="POST">
                 {% for definition in definitions %}
                 <div class="row">
