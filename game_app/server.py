@@ -1,8 +1,7 @@
-import os
 from game_app import app
 from game_app import db
 from flask import (
-    flash, g, redirect, render_template, session, url_for, request
+    flash, redirect, render_template, session, url_for, request
 )
 from PyDictionary import PyDictionary
 import string
@@ -10,15 +9,17 @@ import random
 from game_app.models import Game, Player, Word, Definition, WordGame, Vote, Avatar
 
 
-list_of_words = ['abac', 'abduce', 'acyclovir', 'galactagogue', 'flibbert', 'euglobulin', 'handlanger', 'jiz',
-                 'iliopectineal', 'krumkake', 'Lagerlöf', 'lentiglobus', 'macroetch', 'moble', 'moggy', 'murther',
-                 'orlop', 'perianth', 'pilliwinks', 'poonce', 'quercine', 'rimfire', 'royster', 'wadna']
+WAIT_VOTE_MESSAGES = ["Go pee or something.", "Get started on that manifesto you've been meaning to write.",
+                      "Stretch or something.", "Scream into the void for a minute.",
+                      "Look up where candle wax goes when you burn a candle.", "Get a snack. This game takes forever.",
+                      "Call your <insert family member here>.", "Clean your screen.",
+                      "Let out that fart. No one will hear it.", "Plan your enemy's demise."]
 
-test_list = ['abac', 'abduce', 'acyclovir']
-
-avatars = ['/static/avatar-baby.png', '/static/avatar-blush.png', '/static/avatar-concerned.png',
-           '/static/avatar-crAzy.png', '/static/avatar-kissy.png', '/static/avatar-PISSED.png',
-           '/static/avatar-smirk.png', '/static/avatar-unibrow.png']
+WAIT_RESULTS_MESSAGES = ["Drink some water.", "It's probably Tim--he's taking this way too seriously.",
+                         "Do a jumping jack.", "Challenge your dog to a staring contest.", "Update your will.",
+                         "Go get your coffee out of the microwave.", "Pick that scab. You've earned it.",
+                         "Tell Muriel to just pick a damn definition.", "Unclench your jaw.",
+                         "Admire this super awesome website that has no glitches whatsoever and don't look too closely at it."]
 
 
 @app.route('/home', methods=['POST', 'GET'])
@@ -91,9 +92,11 @@ def add_new_word(new_word_f):
         if not def_dict:
             return
         print("DEF FROM DICT", def_dict)
-        for obj in def_dict:
-            def_key = obj
-            break
+        try:
+            def_key = def_dict[0]
+        except Exception:
+            print("Definition not found.")
+            return
 
         definition = def_dict[def_key][0]
         print('def', definition)
@@ -209,9 +212,9 @@ def vote(word, game_code, word_num, show_defs):
     players = Player.query.filter_by(game_id=game.game_id).all()
     word = Word.query.filter_by(word=word).first()
     print('word', word)
-    show_results = False
     cur_player = Player.query.filter_by(username=username, game_id=game.game_id).first()
     print('current player', cur_player)
+    wait_message = None
 
     print('REQUEST', request.method)
     definitions = []
@@ -238,6 +241,8 @@ def vote(word, game_code, word_num, show_defs):
 
         if num_definitions < (num_players + 1):
             show_defs = False
+            message_num = random.randint(0, len(WAIT_VOTE_MESSAGES) - 1)
+            wait_message = WAIT_VOTE_MESSAGES[message_num]
 
     if request.method == 'POST':
         print('TYPE POST')
@@ -260,7 +265,6 @@ def vote(word, game_code, word_num, show_defs):
             return redirect(url_for('new_word', word=next_word.word, game_code=game.game_code, word_num=word_num))
 
         if request.form.get('definitions'):
-            show_results = True
             definition = request.form.get('definitions')
             definition = Definition.query.filter_by(definition=definition, game_id=game.game_id).first()
             print('definition id', definition.definition_id)
@@ -295,7 +299,8 @@ def vote(word, game_code, word_num, show_defs):
 
             return redirect(url_for('show_vote_results', game_code=game.game_code, word=word.word, word_num=word_num))
 
-    return render_template('vote.html', definitions=definitions, word=word.word, game_code=game.game_code, word_num=word_num, show_results=show_results, show_defs=show_defs)
+    return render_template('vote.html', definitions=definitions, word=word.word, game_code=game.game_code,
+                           word_num=word_num, show_defs=show_defs, wait_message=wait_message)
 
 
 @app.route('/scores/<game_code>/<word>_<word_num>', methods=['POST', 'GET'])
@@ -304,6 +309,7 @@ def show_vote_results(game_code, word, word_num):
     game = Game.query.filter_by(game_code=game_code).first()
     players = Player.query.filter_by(game_id=game.game_id).all()
     word = Word.query.filter_by(word=word).first()
+    wait_result_message = None
 
     vote_results = {}
     dict_def = Definition.query.filter_by(word_id=word.word_id, game_id=game.game_id, is_def=True).first()
@@ -346,15 +352,19 @@ def show_vote_results(game_code, word, word_num):
         show_results = True
     else:
         show_results = False
+        message_num = random.randint(0, len(WAIT_RESULTS_MESSAGES)-1)
+        wait_result_message = WAIT_RESULTS_MESSAGES[message_num]
 
     return render_template('show_definitions.html', definitions=vote_results, word=word.word, game_code=game.game_code,
-                           word_num=word_num, show_results=show_results, scores=scores)
+                           word_num=word_num, show_results=show_results, scores=scores,
+                           wait_result_message=wait_result_message)
 
 
 @app.route('/final_scores/<game_code>', methods=['POST', 'GET'])
 def show_scores(game_code):
 
     game = Game.query.filter_by(game_code=game_code).first()
+    username = session.get('username')
 
     if request.method == 'POST':
 
@@ -363,7 +373,7 @@ def show_scores(game_code):
         Vote.query.filter_by(game_id=game.game_id).delete()
         Definition.query.filter_by(game_id=game.game_id).delete()
         WordGame.query.filter_by(game_id=game.game_id).delete()
-        Player.query.filter_by(game_id=game.game_id).delete()
+        Player.query.filter_by(game_id=game.game_id, username=username).delete()
         remaining_players = Player.query.filter_by(game_id=game.game_id).all()
         if not remaining_players:
             Game.query.filter_by(game_id=game.game_id).delete()
