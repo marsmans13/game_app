@@ -82,9 +82,6 @@ def add_new_word(new_word_f):
     word = Word.query.filter_by(word=new_word_f).all()
 
     if not word:
-        word = Word(word=new_word_f.lower())
-        db.session.add(word)
-        db.session.commit()
 
         d = PyDictionary()
         def_dict = d.meaning(new_word_f.lower())
@@ -96,6 +93,9 @@ def add_new_word(new_word_f):
         except Exception:
             print("Definition not found.")
             return
+        word = Word(word=new_word_f.lower())
+        db.session.add(word)
+        db.session.commit()
 
         definition = def_dict[def_key][0]
         print('def', definition)
