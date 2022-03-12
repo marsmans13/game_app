@@ -25,7 +25,9 @@
         <div class="col-lg-6 col-md-10 col-xs-12" style="margin-bottom: 30px;">
             <form action="{{ url_for('new_word', word=word, game_code=game_code, word_num=word_num) }}" method="post">
                 <label class="input-label" for="definition">good luck defining {{ word }}...</label>
-                <textarea class="def-input" name="definition" id="definition" rows="5" cols="100" maxlength="300"></textarea>
+                <textarea class="def-input" name="definition" id="definition" rows="5" cols="100" maxlength="300" required
+                oninvalid="this.setCustomValidity('You have to enter something...')"
+                oninput="this.setCustomValidity('')"></textarea>
                 <br/>
                 <input class="btn-style" id="definitionSubmit" type="submit" value="submit">
             </form>

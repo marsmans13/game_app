@@ -42,7 +42,7 @@
                     <form action="{{ url_for('home') }}" method="post">
                       <label class="input-label" for="username">name</label>
                       <br/>
-                      <input class="input-style" name="username" id="username" maxlength="15">
+                      <input class="input-style" name="username" id="username" maxlength="15" required />
                       <input class="btn-style" id="createBtn" type="submit" value="start">
                   </form>
                 </div>
@@ -53,12 +53,12 @@
                     <form action="{{ url_for('home') }}" method="post">
                       <label class="input-label" for="username_join">name</label>
                         <br/>
-                      <input class="input-style" name="username_join" id="username_join" maxlength="15">
+                      <input class="input-style" name="username_join" id="username_join" maxlength="15" required />
                         <br/>
                         <br/>
                       <label class="input-label" for="game_code">game code</label>
                         <br/>
-                      <input class="input-style" name="game_code" id="game_code">
+                      <input class="input-style" name="game_code" id="game_code" required />
                         <br/>
                       <input class="btn-style" id="joinBtn" type="submit" value="join">
                     </form>
@@ -68,7 +68,7 @@
 		<form action="{{ url_for('home') }}" method="post">
 			<label class="input-label" for="username">new word</label>					  
 			<br/>
-			<input class="input-style" name="add_word" id="add_word">
+			<input class="input-style" name="add_word" id="add_word" required />
 			<input class="btn-style" id="addWord" type="submit" value="add word">
 		</form>				
 	    </div>
@@ -76,7 +76,12 @@
         <div class="col-lg-1 col-xs-0"></div>
         <div class="col-lg-3 col-xs-12 red-box" style="margin-top:100px">
             <h2>how to play</h2>
-            <p class="instructions">What you do is make up a definition for the word you're presented with. Then you'll vote on which definition you think is right, and if someone votes for your definition or you vote for the dictionary definition, you get a point. If no one votes for your definition, you might want to rethink your life choices.</p>
+            <p class="instructions">What you do is make up a definition for the word you're presented with.
+                Then you'll vote on which definition you think is right, and if someone votes for your definition or you vote for the dictionary definition, you get a point.
+                If no one votes for your definition, you might want to rethink your life choices.
+                <br/>
+                There is a maximum of eight players per game because who has more friends than that anyway...
+            </p>
         </div>
         <div class="col-lg-1 col-xs-0"></div>
     </div>

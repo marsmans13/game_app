@@ -19,39 +19,42 @@
 
     <div class="row">
         <div class="col-lg-1 col-md-1 col-xs-1"></div>
-        <div class="col-lg-4 col-md-4 col-xs-11">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-11">
             <div class="row">
-                <div class="col-lg-6 col-xs-12" style="padding-top:12px;">
+                <div class="col-sm-0 col-xs-1"></div>
+                <div class="col-lg-7 col-md-7 col-xs-10" style="padding-top:12px;">
                     <h3>your game code</h3>
                 </div>
-                <div class="col-lg-3 col-xs-12 code-display">
+                <div class="col-sm-0 col-xs-1"></div>
+                <div class="col-lg-3 col-md-3 col-xs-11 code-display">
                     <h1>{{ game_code }}</h1>
                 </div>
-                <div class="col-lg-3 col-xs-0"></div>
-                <div class="col-lg-9 col-xs-12" style="margin-top: 75px; margin-bottom: 50px;">
+                <div class="col-lg-2 col-md-2 col-xs-1"></div>
+                <div class="col-lg-9 col-md-9 col-xs-11" style="margin-top: 75px; margin-bottom: 50px;">
                     <form action="{{ url_for('create_game', game_code=game_code) }}" method="post">
-                        <input class="btn-style" style="width:300px;" id="startGame" type="submit" value="start game">
+                        <input class="btn-style" style="margin-left: auto; margin-right: auto;display: block" id="startGame" type="submit" value="start game">
                     </form>
                 </div>
+                <div class="col-lg-3 col-md-3 col-xs-1"></div>
             </div>
         </div>
         <div class="col-lg-3 col-md-1 col-xs-1"></div>
-        <div class="col-lg-3 col-md-4 col-xs-10 red-box" style="margin-bottom:100px">
+        <div class="col-lg-3 col-md-4 col-sm-5 col-xs-10 red-box" style="margin-bottom:100px">
             <h2 style="margin-bottom:25px;">players</h2>
             <div id="listPlayers">
-                <ul class="list-players">
+                <div class="list-players">
                     <div class="row">
                         {% for player_in_game in players_in_game %}
                             <div class="col-sm-6 col-xs-12">
-                                <li><img class="avatars" style="display:block;" src="{{ player_in_game[1] }}"></li>
-                                <li class="players"> {{ player_in_game[0].username }} </li>
+                                <div><img class="avatars" style="display:block;" src="{{ player_in_game[1] }}"></div>
+                                <div class="players"> {{ player_in_game[0].username }} </div>
                             </div>
                         {% endfor %}
                     </div>
-                </ul>
+                </div>
             </div>
         </div>
-        <div class="col-lg-1 col-md-1 col-xs-1"></div>
+        <div class="col-lg-1 col-md-1 col-sm-0 col-xs-1"></div>
     </div>
 </body>
 <script type="text/javascript">

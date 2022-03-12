@@ -43,35 +43,34 @@ def home():
             db.session.add(game)
             db.session.commit()
 
-        elif request.form.get('game_code'):
+        else:
             username = request.form['username_join']
             game_code = request.form.get('game_code').strip()
             game = Game.query.filter_by(game_code=game_code).all()
             if not game:
-                flash("Incorrect game code")
+                flash("Incorrect game code you silly goose.")
                 return redirect(url_for('home'))
             num_players = Player.query.filter_by(game_id=game[0].game_id).all()
             if len(num_players) >= 8:
                 flash("I'm sorry this game is so popular it's full :/")
                 return redirect(url_for('home'))
             game = game[0]
-        else:
-            flash("Incorrect game code you silly goose")
-            return redirect(url_for('home'))
 
-        print("GAME: ", game)
         session['username'] = username
 
         existing_player = Player.query.filter_by(username=username, game_id=game.game_id).all()
-        if not existing_player:
-            cur_players = Player.query.filter_by(game_id=game.game_id).all()
-            if cur_players:
-                avatar_id = len(cur_players) + 1
-            else:
-                avatar_id = 1
-            player = Player(username=username, game_id=game.game_id, avatar_id=avatar_id)
-            db.session.add(player)
-            db.session.commit()
+        if existing_player:
+            flash('{} is already taken. Make up a name, be crazy, live life on the edge.'.format(username))
+            return redirect(url_for('home'))
+
+        cur_players = Player.query.filter_by(game_id=game.game_id).all()
+        if cur_players:
+            avatar_id = len(cur_players) + 1
+        else:
+            avatar_id = 1
+        player = Player(username=username, game_id=game.game_id, avatar_id=avatar_id)
+        db.session.add(player)
+        db.session.commit()
 
         return redirect(url_for('create_game', game_code=game_code))
 
