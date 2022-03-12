@@ -87,9 +87,11 @@ def add_new_word(new_word_f):
         def_dict = d.meaning(new_word_f.lower())
         if not def_dict:
             return
-        print("DEF FROM DICT", def_dict)
+        for obj in def_dict:
+            def_obj = def_dict[obj]
+            break
         try:
-            def_key = def_dict[0]
+            api_def = def_obj[0]
         except Exception:
             print("Definition not found.")
             return
@@ -97,7 +99,7 @@ def add_new_word(new_word_f):
         db.session.add(word)
         db.session.commit()
 
-        definition = def_dict[def_key][0]
+        definition = api_def
         print('def', definition)
         new_def = Definition(word_id=word.word_id, definition=definition, is_def=True)
 
