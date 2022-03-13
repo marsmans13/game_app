@@ -94,10 +94,11 @@ html, body {
 
 .logo {
     display: inline-block;
+    margin-top: 30px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
-    height: 200px;
-    float: right;
+    width: 100%
 }
 
 #a-btn {

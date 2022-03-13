@@ -17,27 +17,25 @@
         <div class="col-lg-1 col-sm-1 col-xs-0"></div>
         <div class="col-lg-10 col-sm-10 col-xs-12" style="margin-bottom: 30px;">
             <div class="row">
-                <div class="col-lg-4 col-sm-4 col-xs-8">
-                    <img src="/static/updated-logo.png" class="logo">
+                <div class="col-lg-2 col-md-1"></div>
+                <div class="col-lg-8 col-md-10">
+                    <img src="/static/f-logo.png" class="logo">
                 </div>
-                <div class="col-sm-0 col-xs-4"></div>
-                <div class="col-lg-8 col-sm-8 col-xs-12">
-                    <h1 class="game-title" style="overflow-wrap: break-word;hyphens: manual;">fersh&shy;nickle</h1>
-                    <br/>
-                    <h4>Think you know words?? Think again!!!!</h4>
-                </div>
+                <div class="col-lg-2 col-md-1"></div>
+            </div>
+            <div class="row">
+                <h3 style="text-align:center;">Think you know words?? Think again!!!!</h3>
             </div>
         </div>
         <div class="col-lg-1 col-sm-1 col-xs-0"></div>
     </div>
 
     <div class="row">
-        <div class="col-lg-1 col-xs-0"></div>
-        <div class="col-lg-6 col-xs-12">
-
+        <div class="col-lg-1 col-sm-1 col-xs-0"></div>
+        <div class="col-lg-6 col-sm-5 col-xs-12">
             <div class="row" style="margin-top: 0;">
                 <div class="col-lg-5 col-xs-12">
-                    <h3 class="join-start">start game:</h3>
+                    <h3 class="join-start">start game</h3>
                     <br/>
                     <form action="{{ url_for('home') }}" method="post">
                       <label class="input-label" for="username">name</label>
@@ -48,7 +46,7 @@
                 </div>
                 <div class="col-lg-2 col-xs-12"></div>
                 <div class="col-lg-5 col-xs-12">
-                    <h3 class="join-start">join game:</h3>
+                    <h3 class="join-start">join game</h3>
                     <br/>
                     <form action="{{ url_for('home') }}" method="post">
                       <label class="input-label" for="username_join">name</label>
@@ -66,15 +64,15 @@
             </div>
 	    <div class="row" style="margin-top: 300px;">
 		<form action="{{ url_for('home') }}" method="post">
-			<label class="input-label" for="username">new word</label>					  
+			<label class="input-label" for="username">new word</label>
 			<br/>
 			<input class="input-style" name="add_word" id="add_word" required />
 			<input class="btn-style" id="addWord" type="submit" value="add word">
-		</form>				
+		</form>
 	    </div>
         </div>
-        <div class="col-lg-1 col-xs-0"></div>
-        <div class="col-lg-3 col-xs-12 red-box" style="margin-top:100px">
+        <div class="col-lg-1 col-sm-1 col-xs-0"></div>
+        <div class="col-lg-3 col-sm-4 col-xs-12 red-box" style="margin-top:100px">
             <h2>how to play</h2>
             <p class="instructions">What you do is make up a definition for the word you're presented with.
                 Then you'll vote on which definition you think is right, and if someone votes for your definition or you vote for the dictionary definition, you get a point.
@@ -83,7 +81,7 @@
                 There is a maximum of eight players per game because who has more friends than that anyway...
             </p>
         </div>
-        <div class="col-lg-1 col-xs-0"></div>
+        <div class="col-lg-1 col-sm-1 col-xs-0"></div>
     </div>
     <div class="row" style="margin-bottom: 100px;"></div>
 </body>
