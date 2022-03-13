@@ -28,7 +28,7 @@
                 {% for definition in definitions %}
                 <div class="row">
                     <div class="col-lg-12 radio-defs">
-                        <input type="radio" id="definition_{{ definition.definition_id }}" name="definitions" value="{{ definition.definition }}">
+                        <input type="radio" id="definition_{{ definition.definition_id }}" name="definitions" value="{{ definition.definition }}" required />
                         <label for="definition_{{ definition.definition_id }}">{{ definition.definition }}</label>
                     </div>
                 </div>
@@ -74,6 +74,10 @@
             $('#hideDefinitions').show();
           }
           else {
+	    var is_visible = $('#showDefinitionsID').is(':visible');
+	    if (is_visible == true) {
+		  return;
+	    }
             $('#hideDefinitions').hide();
             var defs_html = $($.parseHTML(reply)).find("#showDefinitionsID").html();
             $('#showDefinitionsID').html(defs_html);

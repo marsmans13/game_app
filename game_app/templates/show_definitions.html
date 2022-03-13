@@ -22,8 +22,8 @@
     </div>
     <div id="showResultsBool" style="visibility:hidden">{{ show_results }}</div>
     <div class="row" style="margin-top: 50px;" id="showResultsID">
-        <div class="col-lg-1 col-xs-0"></div>
-        <div class="col-lg-6 col-sm-12" style="margin-bottom: 50px;">
+        <div class="col-lg-1 col-sm-1 col-xs-0"></div>
+        <div class="col-lg-6 col-sm-11 col-xs-12" style="margin-bottom: 50px;">
             {% for definition in definitions %}
                 <div class="row">
                     {% if definition == 'dictionary' %}
@@ -37,7 +37,7 @@
                         <p>{{ definitions[definition][0].definition }}</p>
                     </div>
                     {% endif %}
-                    <div class="col-lg-3 col-sm-2" style="margin-top:10px">
+		    <div class="col-lg-3 col-sm-2" style="margin-top:10px;">
                         {% if definitions[definition][1] in ("None", []) %}
                             <p>No votes :(</p>
                         {% else %}
@@ -49,13 +49,15 @@
                     </div>
                 </div>
             {% endfor %}
+	    <div style="margin-left: auto; margin-right: auto; display: block;">
             <form action="{{ url_for('vote', word=word, game_code=game_code, word_num=word_num, show_defs='True') }}" method="POST">
                 <label for="next_word"></label>
-                <input class="btn-style" style="width: 150px;" type="submit" id="next_word" name="next_word" value="next word">
+                <input class="btn-style" style="width: 200px;" type="submit" id="next_word" name="next_word" value="next word">
             </form>
+	    </div>
         </div>
-        <div class="col-lg-1 col-xs-0"></div>
-        <div class="col-lg-3 col-xs-12 blue-box">
+	<div class="col-lg-1 col-md-3 col-sm-3 col-xs-0"></div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 blue-box" style="float: center;">
             <h2 style="margin-bottom: 30px; padding-left:10px;">scores</h2>
             {% for score in scores %}
                 <div class="row" style="margin-bottom: 15px;">
@@ -69,7 +71,7 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="col-lg-1 col-xs-0"></div>
+        <div class="col-lg-1 col-md-3 col-sm-3 col-xs-0"></div>
     </div>
 
     <div class="row" id="hideResults">
