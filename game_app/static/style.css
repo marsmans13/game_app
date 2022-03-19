@@ -126,13 +126,15 @@ html, body {
 
 .players {
     text-align: center;
+    font-size: 1.3em;
 }
 
 .avatars {
     display: inline-block;
     margin-left: auto;
     margin-right: auto;
-    width: 120px;
+    height: 100px;
+    margin-bottom: 15px;
 }
 
 .avatar-scores {
