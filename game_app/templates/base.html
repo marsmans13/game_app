@@ -28,7 +28,7 @@
         {% block header %}{% endblock %}
       </header>
       {% for message in get_flashed_messages() %}
-        <div class="flash" style="font-size:large; text-align:center; background-color:#ed593f;">{{ message }}</div>
+        <div class="flash" style="font-size:1.5em; text-align:center; background-color:#ed593f; margin-top:20px; padding:10px 0;">{{ message }}</div>
       {% endfor %}
       {% block content %}{% endblock %}
     </section>
